@@ -5,7 +5,7 @@ const imageMarkup = createGalleryItems(galleryItems);
 const lightboxEl = document.querySelector(".lightbox");
 const closeBtnEl = document.querySelector('[data-action="close-lightbox"]');
 const imageModalEl = document.querySelector(".lightbox__image");
-// const imgLinkEl = document.querySelector(".gallery__link");
+const imgItemEl = document.querySelector(".gallery__item");
 const backdropEl = document.querySelector(".lightbox__overlay");
 const galleryImgEl = document.querySelector(".gallery__image");
 galleryContainer.insertAdjacentHTML("beforeend", imageMarkup);
@@ -35,7 +35,7 @@ function createGalleryItems(galleryItems) {
     })
     .join("");
 }
-
+console.log(imageModalEl.dataset.index);
 function onGallaryContainerClick(evt) {
   if (!evt.target.classList.contains("gallery__image")) {
     return;
@@ -48,7 +48,6 @@ function onClickImage(evt) {
   evt.preventDefault();
   addClassIsOpen();
   addImgAttribute(evt);
-  window.addEventListener("keydown", onRightArrowPress);
 }
 function addImgAttribute(evt) {
   const attrImg = evt.target.dataset.source;
@@ -81,17 +80,23 @@ function onEscapePress(e) {
     onCloseBtn(e);
   }
 }
-// const activImg = galleryImgEl.classList.add("active--img");
 // function rightTurn() {
 //   if (activImg.length < galleryItems.length) {
 //     console.log(activImg.length);
 //   }
 // }
-function onRightArrowPress(e) {
-  if (e.code === "ArrowRight") {
-    console.log(galleryItems.index);
-    rightTurn();
-  }
-  // for (let i = 0; i < galleryItems.length; i += 1) {
-  // }
-}
+imageModalEl.setAttribute("src", "");
+console.log(imageModalEl);
+// window.addEventListener("keydown", onRightArrowPress);
+// function onRightArrowPress(e) {
+//   if (e.code === "ArrowRight") {
+//     for (let i = 0; i < galleryItems.length; i += 1) {
+//       imageModalEl.setAttribute("src", "");
+//       console.log(imageModalEl);
+//     }
+//     console.log(e);
+//     console.log(imageModalEl.src);
+//   }
+//   // for (let i = 0; i < galleryItems.length; i += 1) {
+//   // }
+// }
