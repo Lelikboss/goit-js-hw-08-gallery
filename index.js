@@ -15,7 +15,7 @@ backdropEl.addEventListener("click", onBackdropClick);
 
 function createGalleryItems(galleryItems) {
   return galleryItems
-    .map(({ preview, original, description }) => {
+    .map(({ preview, original, description }, index) => {
       return `
     <li class="gallery__item">
         <a
@@ -28,6 +28,7 @@ function createGalleryItems(galleryItems) {
             src="${preview}"
             data-source="${original}"
             alt="${description}"
+            data-index="${index}"
             />
         </a>
 </li>
@@ -35,7 +36,6 @@ function createGalleryItems(galleryItems) {
     })
     .join("");
 }
-console.log(imageModalEl.dataset.index);
 function onGallaryContainerClick(evt) {
   if (!evt.target.classList.contains("gallery__image")) {
     return;
@@ -46,6 +46,7 @@ function onGallaryContainerClick(evt) {
 
 function onClickImage(evt) {
   evt.preventDefault();
+  imageModalEl.dataset.index = evt.target.dataset.index;
   addClassIsOpen();
   addImgAttribute(evt);
 }
@@ -60,7 +61,6 @@ function addClassIsOpen() {
 }
 function onCloseBtn(e) {
   lightboxEl.classList.remove("is-open");
-  window.removeEventListener("keydown", onEscapePress);
   emptyImgAtribute();
 }
 function emptyImgAtribute() {
@@ -85,8 +85,8 @@ function onEscapePress(e) {
 //     console.log(activImg.length);
 //   }
 // }
-imageModalEl.setAttribute("src", "");
-console.log(imageModalEl);
+// imageModalEl.setAttribute("src", "");
+// console.log(imageModalEl);
 // window.addEventListener("keydown", onRightArrowPress);
 // function onRightArrowPress(e) {
 //   if (e.code === "ArrowRight") {
@@ -95,8 +95,41 @@ console.log(imageModalEl);
 //       console.log(imageModalEl);
 //     }
 //     console.log(e);
-//     console.log(imageModalEl.src);
+//     console.log(imageModalEl);
 //   }
 //   // for (let i = 0; i < galleryItems.length; i += 1) {
 //   // }
 // }
+
+/////////////////
+window.addEventListener("keydown", (e) => {
+  if (e.code === "ArrowLeft") {
+    onArrowLeft();
+  }
+  if (e.code === "ArrowRight") {
+    onArrowRight();
+  }
+});
+
+function onArrowLeft() {
+  let index = Number(imageModalEl.dataset.index);
+  if (index === 0) {
+    newSrc(galleryItems.length - 1);
+    return;
+  }
+  newSrc(index, -1);
+}
+function onArrowRight() {
+  let index = +imageModalEl.dataset.index;
+  if (index === galleryItems.length - 1) {
+    newSrc(0);
+    return;
+  }
+  newSrc(index, 1);
+}
+
+function newSrc(index, step = 0) {
+  imageModalEl.dataset.index = `${index + step}`;
+  console.log(imageModalEl);
+  imageModalEl.src = galleryItems[index + step].original;
+}
