@@ -71,6 +71,10 @@ function onEscapePress(e) {
     onCloseBtn(e);
   }
 }
+function findNewIndex(index, i = 0) {
+  imageModalEl.dataset.index = `${index + i}`;
+  imageModalEl.src = galleryItems[index + i].original;
+}
 function toTheSide(e) {
   if (e.code === "ArrowLeft") {
     onArrowLeft();
@@ -94,8 +98,4 @@ function onArrowRight() {
     return;
   }
   findNewIndex(index, 1);
-}
-function findNewIndex(index, i = 0) {
-  imageModalEl.dataset.index = `${index + i}`;
-  imageModalEl.src = galleryItems[index + i].original;
 }
